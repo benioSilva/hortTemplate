@@ -8,39 +8,41 @@ var nomeCompradorId = "nomeComprador"
 var idadeCompradorId = "idadeComprador"
 var emailCompradorId = "emailComprador"
 var botaoComprarId = "botaoComprar"
-var pedidosKey ="listaDePedidos"
+var pedidosKey = "listaDePedidos"
+var situacaoId = "situacao"
 
 function getHortiCadastroListaStorage() {
     const localStorageHorti = localStorage.getItem(ProdutosCadastradosKey)
     return JSON.parse(localStorageHorti)
 }
+// var ativo = "Ativado"
 
-
-
+// function situacao(para1) {
+//     var realocando = getHortiCadastroListaStorage()
+//     realocando = realocando.filter(function (element, index) {
+//         console.log(element)
+//         return element.situacaodoProduto == ativo
+//     })
+// }
+   
 
 function getCadastroPedidosStorage() {
     const storagePedidos = localStorage.getItem(pedidosKey)
     return JSON.parse(storagePedidos)
 }
 
-var ativado =  "Ativado"
 
-
-function validandoProduto(){
-    let realocandoStorage = getCadastroPedidosStorage()
-    realocandoStorage = realocandoStorage.filter(function(element, index){
-     return element.situacaoProduto == ativado
-    })
-    
-}
-        
 loadOpicoesDeProdutos()
-        
+
 
 
 function loadOpicoesDeProdutos() {
     getElementById(produtosCompraId).innerHTML = ""
-    getHortiCadastroListaStorage().forEach(function (element, index) {
+     let lista = getHortiCadastroListaStorage().filter(function(element){
+        return element.situacaodoProduto == "Ativado"
+     })
+     
+    lista.forEach(function (element, index) {
         console.log(element)
         getElementById(produtosCompraId).innerHTML +=
             '<option value =' + index + '>' + element.produtoCadastro + '</option>'
@@ -55,19 +57,19 @@ function loadPrecosOnChange() {
 
 }
 
-getElementById(botaoComprarId).addEventListener('click', function(event){
+getElementById(botaoComprarId).addEventListener('click', function (event) {
     event.preventDefault();
     let listaDadosComprador = {
         nomeComprador: getElementById(nomeCompradorId).value,
         idadeComprador: getElementById(idadeCompradorId).value,
         emailComprador: getElementById(emailCompradorId).value,
-        produtoComprado:getHortiCadastroListaStorage()[getElementById(produtosCompraId).value].produtoCadastro,
-        valorDoProduto: getElementById(valorCompraId).value, 
-        situacaoProduto: getHortiCadastroListaStorage()[getElementById(produtosCompraId).value].situacaodoProduto,
-        statusPedido: "Pendente" 
+        produtoComprado: getHortiCadastroListaStorage()[getElementById(produtosCompraId).value].produtoCadastro,
+        valorDoProduto: getElementById(valorCompraId).value,
+        statusPedido: "Pendente"
+
     }
     console.log(listaDadosComprador)
-    if (getCadastroPedidosStorage()==null){
+    if (getCadastroPedidosStorage() == null) {
         let listaPedidos = [listaDadosComprador]
         localStorage.setItem(pedidosKey, JSON.stringify(listaPedidos))
     } else {
@@ -79,5 +81,6 @@ getElementById(botaoComprarId).addEventListener('click', function(event){
     getElementById(idadeCompradorId).value = ""
     getElementById(emailCompradorId).value = ""
 })
+
 
 

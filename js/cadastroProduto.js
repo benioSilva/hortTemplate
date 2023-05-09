@@ -16,6 +16,7 @@ var botaoCadastrarId = "botaoCadastrar"
 var situacaoId = "situacao"
 var medidaId = "medida"
 
+
 console.log(getHortiCadastroListaStorage())
 getElementById(botaoCadastrarId).addEventListener('click', function(event){
     event.preventDefault();
